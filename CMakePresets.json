@@ -38,6 +38,17 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
+    },
+    {
+      "name": "ci",
+      "displayName": "CI Release",
+      "description": "CI Release",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_C_COMPILER": "C:/LLVM22/bin/clang-cl.exe",
+        "CMAKE_CXX_COMPILER": "C:/LLVM22/bin/clang-cl.exe"
+      }
     }
   ],
   "buildPresets": [
@@ -48,6 +59,10 @@
     {
       "name": "release",
       "configurePreset": "release"
+    },
+    {
+      "name": "ci",
+      "configurePreset": "ci"
     }
   ],
   "testPresets": [],

@@ -11,7 +11,7 @@ jobs:
       _VCPKG_: ${{ github.workspace }}/third_party/vcpkg
       _LLVM_: C:\Program Files\LLVM\bin\
       VCPKG_EXE: ${{ github.workspace }}/third_party/vcpkg/vcpkg
-      BUILD_DIR: ${{ github.workspace }}/build/release
+      BUILD_DIR: ${{ github.workspace }}/build/ci
       FEED_URL: https://nuget.pkg.github.com/riftcr/index.json
       VCPKG_BINARY_SOURCES: 'clear;nuget,https://nuget.pkg.github.com/riftcr/index.json,readwrite'
     steps:
@@ -38,10 +38,18 @@ jobs:
           .$(${{ env.VCPKG_EXE }} fetch nuget) `
             setapikey "${{ secrets.VCPKG_PAT}}" `
             -Source "${{ env.FEED_URL }}"
+      - name: Install LLVM/Clang 22
+        shell: pwsh
+        run: |
+            Invoke-WebRequest -Uri "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/clang+llvm-22.1.8-x86_64-pc-windows-msvc.tar.xz" -OutFile "$env:RUNNER_TEMP\llvm.tar.xz"
+            tar -xJf "$env:RUNNER_TEMP\llvm.tar.xz" -C "C:\LLVM22" --strip-components=1
+            Add-Content $env:GITHUB_PATH "C:\LLVM22\bin"
+            Add-Content $env:GITHUB_ENV "LLVM_DIR=C:\LLVM22"
+            Add-Content $env:GITHUB_ENV "CMAKE_PREFIX_PATH=C:\LLVM22"
       - name: 'CMake: configure'
-        run: cmake --preset release
+        run: cmake --preset ci
       - name: 'CMake: build'
-        run: cmake --build --preset release
+        run: cmake --build --preset ci
       - name: Upload artifacts
         uses: actions/upload-artifact@v5
         with:
