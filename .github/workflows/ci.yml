@@ -18,6 +18,12 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: true
+      - name: Fetch vcpkg baseline commit
+        working-directory: ${{ env._VCPKG_ }}
+        # "builtin-baseline" in vcpkg.json
+        # this also fixes shallow clone error in vcpkg cmake configure step
+        run: |
+          git fetch origin 0878b5224d4a4968940ee296a2e7fae2d3b62983
       - name: Bootstrap vcpkg
         shell: pwsh
         run: ${{ env._VCPKG_ }}/bootstrap-vcpkg.bat
