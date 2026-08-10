@@ -10,10 +10,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options(/ARCH:AVX2)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
   message(STATUS "Detected Clang-CL")
-  add_compile_options(-mavx2)
+  add_compile_options(-mavx2 -mlzcnt)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   message(STATUS "Detected Clang")
-  add_compile_options(-mavx2)
+  add_compile_options(-mavx2 -mlzcnt)
 endif()
 
 add_compile_definitions(
