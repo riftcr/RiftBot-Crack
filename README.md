@@ -16,7 +16,7 @@
 * [CMake](https://cmake.org/) installed to your PATH
 * [Ninja](https://ninja-build.org/) installed to your PATH
 * [LLVM/Clang 22+](https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/LLVM-22.1.8-win64.exe) installed to your PATH
-* Visual Studio/Windows SDK
+* Visual Studio/Windows SDK 10.0.26100 (24H2)
 
 ### Compiling
 

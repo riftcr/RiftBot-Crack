@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [ 'master' ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      _VCPKG_: ${{ github.workspace }}/third_party/vcpkg
+      _LLVM_: C:\Program Files\LLVM\bin\
+      VCPKG_EXE: ${{ github.workspace }}/third_party/vcpkg/vcpkg
+      BUILD_DIR: ${{ github.workspace }}/build/release
+      FEED_URL: https://nuget.pkg.github.com/riftcr/index.json
+      VCPKG_BINARY_SOURCES: 'clear;nuget,https://nuget.pkg.github.com/riftcr/index.json,readwrite'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+      - name: Bootstrap vcpkg
+        shell: pwsh
+        run: ${{ env._VCPKG_ }}/bootstrap-vcpkg.bat
+      - name: Add NuGet sources
+        shell: pwsh
+        run: |
+          .$(${{ env.VCPKG_EXE }} fetch nuget) `
+            sources add `
+            -Source "${{ env.FEED_URL }}" `
+            -StorePasswordInClearText `
+            -Name GitHubPackages `
+            -UserName "riftcr" `
+            -Password "${{ secrets.VCPKG_PAT }}"
+          .$(${{ env.VCPKG_EXE }} fetch nuget) `
+            setapikey "${{ secrets.VCPKG_PAT}}" `
+            -Source "${{ env.FEED_URL }}"
+      - name: 'CMake: configure'
+        run: cmake --preset release
+      - name: 'CMake: build'
+        run: cmake --build --preset release
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          path: |
+              ${{ env.BUILD_DIR }}/launcher/riftcrack-launcher.exe
+              ${{ env.BUILD_DIR }}/src/rc.dll
