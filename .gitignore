@@ -1,0 +1,4 @@
+*build*/
+.cache/
+__cmake_systeminformation/
+scratch/

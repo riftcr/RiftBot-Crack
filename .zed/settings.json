@@ -1,0 +1,12 @@
+{
+  "lsp": {
+    "clangd": {
+      "binary": {
+        "arguments": [
+          "-background-index",
+          "-compile-commands-dir=build/debug/",
+        ],
+      },
+    },
+  },
+}

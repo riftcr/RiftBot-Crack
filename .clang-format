@@ -1,0 +1,11 @@
+---
+BasedOnStyle: Google
+ColumnLimit: 100
+InsertNewlineAtEOF: true
+---
+Language: Cpp
+DerivePointerAlignment: false
+PointerAlignment: Left
+SortIncludes: false
+---
+
