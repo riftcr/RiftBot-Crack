@@ -5,6 +5,10 @@
 
 # RiftCrack
 
+[Join the Telegram group chat](https://t.me/riftcrack) for help/support.
+
+[Download the latest version](https://github.com/riftcr/RiftBot-Crack/releases/latest)
+
 ## Build instructions
 
 ### Prerequisites
