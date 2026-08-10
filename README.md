@@ -1,7 +1,9 @@
 > [!IMPORTANT]
 > **License Notice:** RiftCrack is licensed under the [Anyone But the RiftBot Staff (ABRS) License](/COPYING.md). If you believe you may fall within the license's restricted class, please [review the full license](/COPYING.md) to understand the rights afforded to you.
 >
-> **License Transition::** Under [Section 8 of the ABRS License](/COPYING.md#8-transition-to-the-mit-license), the Software will transition to the standard [MIT License](https://opensource.org/license/mit) once RiftBot's changes to `hyper-reV` are properly licensed and published in accordance with the `hyper-reV` licensing requirements.
+> **License Transition:** Under [Section 8 of the ABRS License](/COPYING.md#8-transition-to-the-mit-license), the Software will transition to the standard [MIT License](https://opensource.org/license/mit) once RiftBot's changes to `hyper-reV` are properly licensed and published in accordance with the `hyper-reV` licensing requirements.
+>
+> The RiftCrack developers are not responsible for any bans resulting from the usage of this software. Rift is detected by EAC.
 
 # RiftCrack
 

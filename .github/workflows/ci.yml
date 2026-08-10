@@ -51,9 +51,14 @@ jobs:
         run: cmake --preset ci
       - name: 'CMake: build'
         run: cmake --build --preset ci
+      - name: Prepare artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "${{ runner.temp }}\artifacts" | Out-Null
+          Copy-Item "${{ env.BUILD_DIR }}\launcher\riftcrack-launcher.exe" "${{ runner.temp }}\artifacts\riftcrack-launcher.exe"
+          Copy-Item "${{ env.BUILD_DIR }}\src\rc.dll" "${{ runner.temp }}\artifacts\rc.dll"
       - name: Upload artifacts
         uses: actions/upload-artifact@v5
         with:
-          path: |
-              ${{ env.BUILD_DIR }}/launcher/riftcrack-launcher.exe
-              ${{ env.BUILD_DIR }}/src/rc.dll
+          name: riftcrack
+          path: ${{ runner.temp }}/artifacts/*
