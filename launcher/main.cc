@@ -143,8 +143,8 @@ int main(int argc, char** argv) {
     std::println(
         "RiftBot Crack is licensed under the Anyone But the RiftBot Staff (ABRS) License. If you "
         "believe you may fall within the license's restricted class, please review the full "
-        "license at https://github.com/riftcr/RiftBot-Crack to understand the rights afforded to "
-        "you.");
+        "license at https://github.com/riftcr/RiftBot-Crack/blob/master/COPYING.md to understand "
+        "the rights afforded to you.");
     std::println();
 
     auto init = wil::CoInitializeEx(COINIT_MULTITHREADED);
