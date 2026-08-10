@@ -42,6 +42,7 @@ jobs:
         shell: pwsh
         run: |
             Invoke-WebRequest -Uri "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/clang+llvm-22.1.8-x86_64-pc-windows-msvc.tar.xz" -OutFile "$env:RUNNER_TEMP\llvm.tar.xz"
+            mkdir "C:\LLVM22" | Out-Null
             tar -xJf "$env:RUNNER_TEMP\llvm.tar.xz" -C "C:\LLVM22" --strip-components=1
             Add-Content $env:GITHUB_PATH "C:\LLVM22\bin"
             Add-Content $env:GITHUB_ENV "LLVM_DIR=C:\LLVM22"
