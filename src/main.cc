@@ -1,6 +1,7 @@
 #include <absl/flags/parse.h>
 #include <absl/debugging/symbolize.h>
 #include "enumthreads.h"
+#include "hook_gui.h"
 #include "hook_initial.h"
 #include "hook_winhttp.h"
 #include "syscalls.h"
@@ -108,6 +109,7 @@ void AfterUnpacked() {
   InstallOpenSSLHooks();
   InstallCurlHooks();
   InstallWinHttpHooks();
+  InstallGuiHooks();
 }
 
 BOOL WINAPI DllMain(HMODULE mod, DWORD reason, LPVOID reserved) {

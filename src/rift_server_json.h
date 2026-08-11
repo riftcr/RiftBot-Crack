@@ -13,7 +13,7 @@ using Signature = std::array<byte, 64 /* crypto_sign_BYTES */>;
 using Key = std::array<byte, crypto_aead_aes256gcm_KEYBYTES>;
 using Nonce = std::string;
 
-constexpr auto kAddonTier = 1;
+constexpr auto kAddonTier = 2;
 constexpr auto kIsStaff = false;
 
 struct RequestBag {
