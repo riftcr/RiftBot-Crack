@@ -55,10 +55,18 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force "${{ runner.temp }}\artifacts" | Out-Null
+          New-Item -ItemType Directory -Force "${{ runner.temp }}\symbols" | Out-Null
           Copy-Item "${{ env.BUILD_DIR }}\launcher\riftcrack-launcher.exe" "${{ runner.temp }}\artifacts\riftcrack-launcher.exe"
+          Copy-Item "${{ env.BUILD_DIR }}\launcher\riftcrack-launcher.pdb" "${{ runner.temp }}\symbols\riftcrack-launcher.pdb"
           Copy-Item "${{ env.BUILD_DIR }}\src\rc.dll" "${{ runner.temp }}\artifacts\rc.dll"
+          Copy-Item "${{ env.BUILD_DIR }}\src\rc.pdb" "${{ runner.temp }}\symbols\rc.pdb"
       - name: Upload artifacts
         uses: actions/upload-artifact@v5
         with:
           name: riftcrack
           path: ${{ runner.temp }}/artifacts/*
+      - name: Upload debug symbols
+        uses: actions/upload-artifact@v5
+        with:
+          name: symbols
+          path: ${{ runner.temp }}/symbols/*
