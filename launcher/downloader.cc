@@ -136,6 +136,7 @@ void Downloader::Start() {
         break;
       case kFileLoader:
         path = fs::current_path() / cur_file_.file.name;
+        g_RiftLoaderPath = fs::absolute(path);
         url = absl::StrCat(kResourcesBaseUrl, "/official-loader/", cur_file_.file.name);
         break;
     }
