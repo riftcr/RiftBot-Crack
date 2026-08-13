@@ -28,7 +28,8 @@ constexpr auto kResourcesBaseUrl =
     "https://media.githubusercontent.com/media/riftcr/resources/"
     "cae0f6173014d1116a7eb95cb6c23b7dcc6bc179/";
 constexpr FileInfo kLoaderFile{"RiftLoaderV3.exe", 88'546'304, kFileLoader};
-// constexpr FileInfo kLoaderFile{"RiftLoaderV3.exe", 80'896, kFileLoader};
+// The new loaders don't work 😂
+// constexpr FileInfo kLoaderFile{"RiftLoaderV3.exe", 71'017'984, kFileLoader};
 
 void PrintIgnoredDownloadMessage();
 

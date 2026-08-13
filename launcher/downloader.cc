@@ -131,12 +131,12 @@ void Downloader::Start() {
         if (!fs::exists(path)) {
           fs::create_directory(path);
         }
-        path /= "MODEL.bin";
+        path /= "MODEL.bin.tmp";
         url = absl::StrCat(kResourcesBaseUrl, "/models/", cur_file_.file.name, "/MODEL.bin");
         break;
       case kFileLoader:
-        path = fs::current_path() / cur_file_.file.name;
-        g_RiftLoaderPath = fs::absolute(path);
+        path = fs::current_path() / absl::StrCat(cur_file_.file.name, ".tmp");
+        g_RiftLoaderPath = fs::absolute(fs::current_path() / cur_file_.file.name);
         url = absl::StrCat(kResourcesBaseUrl, "/official-loader/", cur_file_.file.name);
         break;
     }
@@ -154,11 +154,15 @@ void Downloader::Start() {
         // clear the queue
         wanted_downloads_ = {};
         std::fclose(model_file);
-        // delete remnants - or else the crack might load a bad model file
         fs::remove(path);
+        break;
       }
     }
     std::fclose(model_file);
+    // remove .tmp from path, download is complete and OK
+    if (path.extension() == ".tmp") {
+      fs::rename(path, fs::path(path).replace_extension());
+    }
   }
 
   dialog_->StopProgressDialog();

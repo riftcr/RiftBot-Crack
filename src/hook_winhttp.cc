@@ -30,6 +30,12 @@ struct IdataInfile {
   size_t remaining{0};
   size_t total{0};
 };
+struct IdataOutFile {
+  IdataOutFile(const fs::path& path) : path(path) { stream.open(path, std::ios::binary); }
+
+  std::ofstream stream;
+  fs::path path;
+};
 
 class WinHttpIdata {
  public:
@@ -70,7 +76,7 @@ class WinHttpIdata {
       input_file_.emplace(model_path);
       VLOGF(1, "open local replay request to {} (len={})", model_path.string(), input_file_->total);
     } else {
-      output_file_.emplace(model_path, std::ios::binary);
+      output_file_.emplace(model_dir / "MODEL.bin.tmp");
       connect_fwd_ =
           o_winhttpconnect(session_, kRiftCrResourcesDomain.data(), INTERNET_DEFAULT_PORT, 0);
       THROW_LAST_ERROR_IF_NULL(connect_fwd_);
@@ -128,8 +134,9 @@ class WinHttpIdata {
 
       if (retn && bytes_read && *bytes_read) {
         // VLOGF(1, "ReadData on {}({}) read {} bytes, returns {}", buf, buf_len, *bytes_read,
-        // retn); write it to disk now
-        output_file_->write((char*)buf, *bytes_read);
+        // retn);
+        // write it to disk now
+        output_file_->stream.write((char*)buf, *bytes_read);
       }
       return retn;
     }
@@ -171,7 +178,13 @@ class WinHttpIdata {
     CHECKF(false, "WinHttpQueryHeaders hook is bad");
   }
 
-  bool CloseHandleDetour() { return --refs_ <= 0; }
+  bool CloseHandleDetour() {
+    if (refs_ >= 2 && output_file_.has_value()) {
+      output_file_->stream.close();
+      fs::rename(output_file_->path, fs::path(output_file_->path).replace_extension());
+    }
+    return --refs_ <= 0;
+  }
 
  private:
   inline static uint counter_{0x11223344};
@@ -181,7 +194,7 @@ class WinHttpIdata {
   HINTERNET session_{nullptr};
   HINTERNET connect_fwd_{nullptr};
   HINTERNET request_fwd_{nullptr};
-  std::optional<std::ofstream> output_file_;
+  std::optional<IdataOutFile> output_file_;
   std::optional<IdataInfile> input_file_;
 };
 
