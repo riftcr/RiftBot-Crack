@@ -182,6 +182,7 @@ class WinHttpIdata {
     if (refs_ >= 2 && output_file_.has_value()) {
       output_file_->stream.close();
       fs::rename(output_file_->path, fs::path(output_file_->path).replace_extension());
+      output_file_.reset();
     }
     return --refs_ <= 0;
   }
